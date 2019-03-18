@@ -4,10 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class DataSet {
-	//keeping track of the current number, the previous number, and the entry line
 	public static int currentNumber = 0;
 	public static int prevNumber = 0;
-	//stores the data in an array
+	//array used to store the data, used so that checks might be implemented in the future easily
 	public static int[] storage;
 	//test variable for the distributions
 	public static int[] storageDistribution = new int[20];
@@ -18,11 +17,13 @@ public class DataSet {
 			double x = Math.random() * 100;
 				if (x <= 8.143){
 					currentNumber = 1;
+					//setting to -1, will rerun loop while putting data into the array
 					if (prevNumber == currentNumber){
 						return -1;
 					}
 					storageDistribution[0] ++;
 				}
+				//probabilities for x created with the distributions
 				else if (x > 8.143 && x <= 8.143*2){
 					currentNumber = 2;
 					if (prevNumber == currentNumber){
@@ -100,14 +101,14 @@ public class DataSet {
 					}
 					storageDistribution[11] ++;
 				}
-				else if (x > 8.143*12 && x <= (8.143*12 + 1.177)){
+				else if (x > 8.143*12 && x <= (8.143*12 + 1.1773)){
 					currentNumber = 13;
 					if (prevNumber == currentNumber){
 						return -1;
 					}
 					storageDistribution[12] ++;
 				}
-				else if (x > (8.143*12 + 1.177) && x <= (8.143*12 + 1.766)){
+				else if (x > (8.143*12 + 1.1773) && x <= (8.143*12 + 1.766)){
 					currentNumber = 14;
 					if (prevNumber == currentNumber){
 						return -1;
@@ -128,21 +129,21 @@ public class DataSet {
 					}
 					storageDistribution[15] ++;
 				}
-				else if (x > (8.143*12 + 2.178) && x <= (8.143*12 + 2.23657)){
+				else if (x > (8.143*12 + 2.178) && x <= (8.143*12 + 2.23687)){
 					currentNumber = 17;
 					if (prevNumber == currentNumber){
 						return -1;
 					}
 					storageDistribution[16] ++;
 				}
-				else if (x > (8.143*12 + 2.23657) && x <= (8.143*12 + 2.266)){
+				else if (x > (8.143*12 + 2.23687) && x <= (8.143*12 + 2.2663)){
 					currentNumber = 18;
 					if (prevNumber == currentNumber){
 						return -1;
 					}
 					storageDistribution[17] ++;
 				}
-				else if (x > (8.143*12 + 2.266) && x <= (8.143*12 + 2.278)){
+				else if (x > (8.143*12 + 2.2663) && x <= (8.143*12 + 2.27808)){
 					currentNumber = 19;
 					if (prevNumber == currentNumber){
 						return -1;
@@ -160,8 +161,8 @@ public class DataSet {
 		return currentNumber;
 	}
 	//printing out the data to a text file
-	public static void print() throws FileNotFoundException, UnsupportedEncodingException{
-		PrintWriter writer = new PrintWriter("CrowdStreetData.txt", "UTF-8");
+	public static void writeToTextFile() throws FileNotFoundException, UnsupportedEncodingException{
+		PrintWriter writer = new PrintWriter("test.output.txt", "UTF-8");
         for(int i: storage){
         	writer.println(i+" ");
         }
@@ -178,21 +179,18 @@ public class DataSet {
 			System.out.println(i+1 + " occurs " + storageDistribution[i] + " times.");
 		}
 	}
-	// I used an array here in order to allow for checks if necessary later. 
-	// By using the array, I could implement a limit to the 
-	// amounts of specific numbers over a range easily.
-	// The list method generates a random number with the correct probability and backtracks
+	// The list method fills the array and backtracks
 	// if the two numbers are consecutive to replace the current number.
 	public static int[] list() {
 	    storage = new int[997940];
 	    for(int i=0;i<storage.length;i++)
 	    {
-	    	int x = createData();
-	    	if (x == 20){
+	    	int y = createData();
+	    	if (y == 20){
 	    		lineTwenties.add(i);
 	    	}
-	    	if (x != -1){
-	    		storage[i] = x;
+	    	if (y != -1){
+	    		storage[i] = y;
 	    	}
 	    	else{
 	    			i--;
@@ -208,15 +206,12 @@ public class DataSet {
 		}
 		System.out.println(total);
 	}
-	//calls the list function which fills the array with the correct distribution
-	//then calls the print data method which writes the data to a text file
-	//then prints out the lines which contain 20 to the console
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		list();
-		print();
-		//printDistribution();
-		//printTotal();
+		writeToTextFile();
 		printTwenties();
+		printDistribution();
+		//printTotal();
 	}
 
 }
