@@ -210,7 +210,7 @@ public class DataSet {
 		list();
 		writeToTextFile();
 		printTwenties();
-		printDistribution();
+		//printDistribution();
 		//printTotal();
 	}
 
